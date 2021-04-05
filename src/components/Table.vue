@@ -15,12 +15,10 @@
                                     v-for="product in products"
                                     :value="product"
                                     :key="product.id"
-                                    :selected="product === 'iPhone 11 Pro Max'"
                             >
                                 {{ product.name }}
                             </option>
                         </select>
-<!--                        <span>{{selectedProduct}}</span>-->
                         <div class="table-crud__right-upper-btn">
                             <button @click="addOrder">Подтвержден</button>
                         </div>
@@ -34,9 +32,8 @@
                             </div>
                             <div class="lower__price-item">
                                 <p>Количество</p>
-                                <input type="text"
-                                       value=""
-                                       v-model="selectedProduct.quantity"
+                                <input type="number"
+                                       v-model="count"
                                 >
                             </div>
                             <div class="lower__price-item">
@@ -75,7 +72,7 @@
                 },
                 selectedProduct: {},
                 hideTable: true,
-
+                count: 1
             }
         },
         computed: {
@@ -86,21 +83,28 @@
         },
         mounted() {
             this.$emit('component-loaded', this.selectedProduct);
-            this.$set(this.selectedProduct, 'quantity', 1)
+            this.selectedProduct = this.products[0]
         },
         watch: {},
         methods: {
             ...mapActions([
                 'GET_PRODUCTS_FROM_API',
-                'ADD_TO_ORDER'
+                'ADD_TO_ORDER',
+                'CREATE_ORDER'
             ]),
             look() {
                 console.log(this.selectedProduct)
             },
             addOrder() {
-                this.$emit('addOrder', this.selectedProduct);
-                this.hideTable = false
 
+                this.CREATE_ORDER({
+                    product: this.selectedProduct,
+                    count: this.count
+                })
+                .then(() => {
+                    this.$emit('addOrder', this.selectedProduct);
+                    this.hideTable = false
+                })
             }
         }
     }

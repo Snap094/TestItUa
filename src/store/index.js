@@ -35,18 +35,26 @@ let store = new Vuex.Store({
     }
   },
   actions: {
-    GET_PRODUCTS_FROM_API({commit}) {
-      return axios(API_ROUTES.GET_PRODUCTS, {
-        method: "GET"
-      })
+    GET_PRODUCTS_FROM_API(context) {
+      return axios.get(API_ROUTES.GET_PRODUCTS)
           .then((products) => {
-            commit('SET_PRODUCTS_TO_STATE', products.data);
+            context.commit('SET_PRODUCTS_TO_STATE', products.data);
             return products;
           })
           .catch((error) => {
             console.log(error)
             return error
           })
+    },
+    CREATE_ORDER(context, payload){
+      debugger
+      return axios.post(API_ROUTES.CREATE_ORDER, {
+        productId: payload.product.id,
+        count: parseInt(payload.count)
+      })
+          .then((response) => {
+        console.log(response)
+      })
     },
     ADD_TO_ORDER({commit}, selectedProduct) {
       commit('SET_ORDER',selectedProduct)
