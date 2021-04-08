@@ -1,5 +1,5 @@
 <template>
-            <div class="table-crud"
+            <div class="table-crud create"
             v-if="hideTable"
             >
                 <div class="table-crud__img"
@@ -19,9 +19,7 @@
                                 {{ product.name }}
                             </option>
                         </select>
-                        <div class="table-crud__right-upper-btn">
-                            <button @click="addOrder">Подтвержден</button>
-                        </div>
+
                     </div>
                     <div class="lower"
                     >
@@ -33,20 +31,18 @@
                             <div class="lower__price-item">
                                 <p>Количество</p>
                                 <input type="number"
+                                       min="1"
                                        v-model="count"
                                 >
                             </div>
                             <div class="lower__price-item">
                                 <p>Сумма</p>
-                                <p>$ {{ selectedProduct.price }}</p>
+                                <p>$ {{ selectedProduct.price * count}}</p>
                             </div>
                         </div>
                         <div class="lower__changes">
-                            <div class="lower__changes-redact">
-                                <button>Изменить</button>
-                            </div>
-                            <div class="lower__changes-delete">
-                                <button>Удалить</button>
+                            <div class="table-crud__right-upper-btn-create">
+                                <button @click="addOrder">Добавить</button>
                             </div>
                         </div>
                     </div>
@@ -96,13 +92,12 @@
                 console.log(this.selectedProduct)
             },
             addOrder() {
-
                 this.CREATE_ORDER({
                     product: this.selectedProduct,
                     count: this.count
                 })
                 .then(() => {
-                    this.$emit('addOrder', this.selectedProduct);
+                    this.$emit('addOrder');
                     this.hideTable = false
                 })
             }
@@ -111,11 +106,13 @@
 </script>
 
 <style lang="scss">
+
     .table-crud {
         width: 70%;
+        max-width: 850px;
         display: flex;
         background-color: #f7f7f7;
-        box-shadow: 0 0 8px #e0e0e0;
+        box-shadow: 0 0 8px #7bd4ab;
         height: 250px;
         padding: 25px;
         border-radius: 15px;
@@ -150,33 +147,30 @@
                 select {
                     width: 180px;
                     padding: 10px 10px;
-                    background-color: #c1c1c1;
+                    background-color: #dedddd;
+                    box-shadow: 0 0 3px #31a2ce;
                     border-radius: 7px;
                     margin-right: 10px;
-                }
-
-                &-btn {
-                    width: 150px;
-
-                    button {
-                        height: 100%;
-                        width: 100%;
-                        padding: 10px 10px;
-                        background-color: #c1c1c1;
-                        cursor: pointer;
-                        border: 0;
-                        border-radius: 7px;
-                        transition: 0.5s;
-                    }
-
-                    :hover {
-                        background-color: #8D8D8D;
-                    }
                 }
             }
         }
     }
+  .table-crud__right-upper-btn{
+      width: 180px;
+      height: 40px;
+      button {
+          height: 100%;
+          width: 100%;
+          padding: 10px 10px;
+          background-color: #dedddd;
+          border: 1px solid black;
+          cursor: pointer;
+          border: 0;
+          border-radius: 7px;
+          transition: 0.5s;
+      }
 
+  }
     .lower {
         display: flex;
         padding: 20px;
@@ -196,9 +190,13 @@
                     text-align: start;
                     width: 90px;
                 }
+                p:nth-child(1){
+                    margin-right: 20px;
+                }
                 input {
                     text-align: start;
-                    width: 90px;
+                    width: 45px;
+                    padding: 0 10px;
                     height: 20px;
                 }
             }
@@ -211,22 +209,20 @@
             height: 100%;
             justify-content: flex-end;
             align-items: flex-end;
-
             button {
                 width: 100%;
                 padding: 10px 10px;
-                background-color: #c1c1c1;
+                background-color: #dedddd;
+                border: 1px solid black;
+                box-shadow: 0 0 2px #31a2ce;
                 cursor: pointer;
-                border: 0;
                 transition: 0.5s;
                 border-radius: 7px;
-
+                &:hover {
+                    background-color: #31a2ce;
+                    color: #f7f7f7;
+                }
             }
-
-            :hover {
-                background-color: #8D8D8D;
-            }
-
             &-redact {
                 width: 150px;
                 border-radius: 7px;
@@ -238,5 +234,8 @@
                 border-radius: 7px;
             }
         }
+    }
+    .create{
+        box-shadow: 0 0 8px #31a2ce;
     }
 </style>

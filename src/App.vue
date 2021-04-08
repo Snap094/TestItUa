@@ -1,32 +1,46 @@
 <template>
-  <div id="app">
-    <crud />
-  </div>
+    <div id="app">
+        <crud/>
+    </div>
 </template>
 
 <script>
-  import Crud from "./components/Crud";
-  export default {
-    components: {Crud}
-  }
+    import Crud from "./components/Crud";
+
+    export default {
+        components: {Crud}
+    }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap');
 
-}
-a{
-  text-decoration: none;
-  color: #2c3e50;
-}
-button{
-  font-size: 16px;
-  color: #2c3e50;
-}
+    #app {
+        font-family: 'Chakra Petch', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+
+    }
+    p{
+      font-size: 16px;
+      font-weight: 600;
+    }
+    a {
+        text-decoration: none;
+        color: #2c3e50;
+    }
+
+    button {
+      font-family: 'Chakra Petch', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    input, select{
+        font-family: 'Chakra Petch', sans-serif;
+        font-size: 16px;
+    }
 </style>
