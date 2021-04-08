@@ -3,5 +3,5 @@ export const API_ROUTES = {
     CREATE_ORDER: 'https://webtest.it.ua/testApp/api/orders/add',
     GET_ORDERS: 'https://webtest.it.ua/testApp/api/orders',
     GET_STATUSES: 'https://webtest.it.ua/testApp/api/statuses',
-    DELETE_ORDER: 'https://webtest.it.ua/testApp/api/orders/delete/%7Bid%7D'
+    DELETE_ORDER: 'https://webtest.it.ua/testApp/api/orders/delete/'
 };

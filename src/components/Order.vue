@@ -8,7 +8,6 @@
                 :order_item_data="order"
                 :products="PRODUCTS"
                 :statuses="STATUSES"
-                @deleteOrder="deleteOrder"
         />
         <div class="order_pagination">
             <div
@@ -49,9 +48,6 @@
                 'GET_ORDERS_FROM_API',
                 'GET_STATUSES_FROM_API'
             ]),
-            deleteOrder() {
-                this.DELETE_FROM_ORDER()
-            },
             pageClick(page) {
                 this.pageNumber = page
             }

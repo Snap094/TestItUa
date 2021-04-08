@@ -74,7 +74,7 @@ let store = new Vuex.Store({
           })
     },
     DELETE_FROM_ORDER(context, payload) {
-      return axios.post('https://webtest.it.ua/testApp/api/orders/delete/' + payload.id)
+      return axios.post(API_ROUTES.DELETE_ORDER + payload.id)
           .then(() => {
             context.commit('REMOVE_FROM_ORDER',payload.id)
           })
