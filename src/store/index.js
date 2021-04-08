@@ -9,8 +9,7 @@ let store = new Vuex.Store({
   state: {
     products: [],
     orders: [],
-    statuses: [],
-    order: []
+    statuses: []
   },
   mutations: {
     SET_PRODUCTS_TO_STATE: (state, products) => {
@@ -19,26 +18,13 @@ let store = new Vuex.Store({
     SET_ORDERS_TO_STATE: (state, orders) => {
       state.orders = orders
     },
-    SET_ORDER: (state, selectedProduct) => {
-      if (state.order.length) {
-        let isProductExist = false;
-        state.order.map(function (item) {
-          if (item.id === selectedProduct.id) {
-            isProductExist = true;
-          }
-        })
-        if (!isProductExist){
-          state.order.push(selectedProduct)
-        }
-      } else {
-        state.order.push(selectedProduct)
-      }
-    },
     SET_STATUSES_TO_STATE: (state, statuses) =>{
       state.statuses = statuses
     },
-    REMOVE_FROM_ORDER: (state, index) => {
-      state.orders.splice(index, 1)
+    REMOVE_FROM_ORDER: (state, orderId) => {
+      state.orders = state.orders.filter((order) =>{
+        return order.id !== orderId
+      })
     }
   },
   actions: {
@@ -64,15 +50,6 @@ let store = new Vuex.Store({
         return error
       })
     },
-    CREATE_ORDER(context, payload){
-      return axios.post(API_ROUTES.CREATE_ORDER, {
-        productId: payload.product.id,
-        count: parseInt(payload.count)
-      })
-          .then((response) => {
-        console.log(response)
-      })
-    },
     GET_ORDERS_FROM_API(context){
       return axios.get(API_ROUTES.GET_ORDERS)
           .then((orders) => {
@@ -87,13 +64,19 @@ let store = new Vuex.Store({
     ADD_TO_ORDER({commit}, selectedProduct) {
       commit('SET_ORDER',selectedProduct)
     },
-    DELETE_FROM_ORDER(context, payload) {
-      return axios.post('https://webtest.it.ua/testApp/api/orders/delete/{id}', {
-        id: payload.order.id
+    CREATE_ORDER(context, payload){
+      return axios.post(API_ROUTES.CREATE_ORDER, {
+        productId: payload.product.id,
+        count: parseInt(payload.count)
       })
-          .then((context) => {
+          .then((response) => {
+           context.state.orders.push(response.data)
+          })
+    },
+    DELETE_FROM_ORDER(context, payload) {
+      return axios.post('https://webtest.it.ua/testApp/api/orders/delete/' + payload.id)
+          .then(() => {
             context.commit('REMOVE_FROM_ORDER',payload.id)
-            return payload.id
           })
     }
   },
